@@ -1,0 +1,17 @@
+{
+  "name": "Beweg dich fetsack",
+  "short_name": "Fetsack",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c110e",
+  "theme_color": "#101713",
+  "description": "Dein persönlicher Ernährungs- und Abnehmplan.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

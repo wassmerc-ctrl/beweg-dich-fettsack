@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101713">
+<meta name="description" content="Dein persönlicher Ernährungs- und Abnehmplan.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Beweg dich fetsack</title>
+<style>
+:root{color-scheme:dark;--bg:#0c110e;--panel:#151e18;--panel2:#1b2820;--line:#29382e;--muted:#a1b1a5;--text:#f0f5f1;--green:#a6e3b2;--green2:#4c9b66;--orange:#f2bc78;--red:#f08c83;--radius:20px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17251b 0,#0c110e 52%);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:92px}
+header{padding:22px 18px 12px;max-width:760px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,#b5efbd,#4c9b66);display:grid;place-items:center;color:#102016;font-size:22px;font-weight:900}
+h1{font-size:18px;margin:0;letter-spacing:-.4px} .sub{color:var(--muted);font-size:12px}
+main{max-width:760px;margin:auto;padding:8px 16px 24px}.view{display:none}.view.active{display:block}
+h2{font-size:23px;margin:12px 0 5px;letter-spacing:-.5px}.lead{color:var(--muted);margin:0 0 18px}
+.card{background:linear-gradient(160deg,#1a261e,#131b16);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:0 10px 30px #0002}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{background:#1b2820;border:1px solid #2b3b30;border-radius:17px;padding:14px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:25px;display:block;margin-top:4px}.green{color:var(--green)}.muted{color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bar{height:9px;background:#2a392e;border-radius:99px;overflow:hidden;margin-top:9px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#4c9b66,#b4edbc);border-radius:99px}
+.pill{font-size:11px;color:var(--green);border:1px solid #3e704c;border-radius:99px;padding:5px 9px;white-space:nowrap}
+.tabs{position:fixed;z-index:5;bottom:0;left:0;right:0;background:#101713f2;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:9px 5px calc(9px + env(safe-area-inset-bottom));gap:2px}
+.tabs button{background:none;border:0;color:#8fa196;flex:1;max-width:115px;padding:6px 2px;font-size:10px;display:grid;gap:4px;justify-items:center}.tabs button b{font-size:19px;font-weight:500}.tabs button.active{color:var(--green)}
+button,.btn{cursor:pointer} .primary{border:0;border-radius:13px;padding:11px 14px;background:var(--green);color:#102016;font-weight:750}.secondary{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#202d24;color:var(--text)}
+.meal{display:grid;grid-template-columns:58px 1fr auto;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #28362d}.meal:last-child{border:0}.foodicon{height:54px;width:58px;border-radius:14px;background:#26372b;display:grid;place-items:center;font-size:25px}.meal h3{font-size:14px;margin:0 0 3px}.meal p{margin:0;color:var(--muted);font-size:12px}.meal small{color:var(--green);font-size:11px}.meal-toggle{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:11px;color:var(--green)}.meal-toggle input{accent-color:#8ed69c;width:16px;height:16px}
+.dayrow{display:flex;gap:7px;overflow:auto;padding:4px 0 12px}.dayrow button{min-width:47px;border:1px solid var(--line);border-radius:13px;background:#17221b;color:var(--muted);padding:9px 6px}.dayrow button.selected{background:var(--green);color:#102016;border-color:var(--green);font-weight:800}
+.recipe{padding:14px 0;border-bottom:1px solid var(--line)}.recipe:last-child{border:0}.recipe h3{margin:0 0 4px;font-size:16px}.recipe p{margin:0;color:var(--muted);font-size:12px}
+.tagrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.tag{font-size:11px;padding:5px 8px;border-radius:9px;background:#26362b;color:#cdebd2}
+input[type=number],input[type=date],input[type=text],select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0f1712;color:var(--text);font:inherit}
+label{font-size:12px;color:var(--muted);display:block;margin:0 0 6px}.field{margin:10px 0}
+.check{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #26342b}.check input{accent-color:#8ed69c;width:18px;height:18px}.check.done span{text-decoration:line-through;color:#7e9184}
+.priceitem{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.priceitem:last-child{border:0}.weightitem{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+canvas{width:100%;height:190px;display:block}.note{font-size:12px;color:var(--muted);line-height:1.5}
+.modal{position:fixed;inset:0;background:#000b;z-index:10;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{width:min(760px,100%);max-height:86vh;overflow:auto;background:#151e18;border:1px solid var(--line);border-radius:24px 24px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom))}.sheet h2{margin-top:0}.sheet ul,.sheet ol{padding-left:22px}.close{float:right;border:0;background:#29382e;color:white;border-radius:50%;width:34px;height:34px;font-size:18px}
+@media(min-width:700px){main{padding-top:16px}.grid.four{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">↗</div><div><h1>Beweg dich fetsack</h1><div class="sub">Dein Plan. Dein Tempo. 💪</div></div></div><span class="pill">DARK MODE</span></header>
+<main>
+<section id="dashboard" class="view active">
+<h2>Hey, Cedi! 👋</h2><p class="lead">Ein Schritt nach dem anderen. Heute zählt.</p>
+<div class="grid">
+ <div class="stat"><small>Kalorien heute</small><strong id="dashKcal">0 <small style="display:inline">/ 2.000</small></strong><div class="bar"><span id="kcalBar" style="width:0%"></span></div></div>
+ <div class="stat"><small>Protein heute</small><strong id="dashProtein">0 <small style="display:inline">/ 170 g</small></strong><div class="bar"><span id="proteinBar" style="width:0%"></span></div></div>
+ <div class="stat"><small>Startgewicht</small><strong>90,0 kg</strong><small>Dein Ausgangspunkt</small></div>
+ <div class="stat"><small>Erstes Ziel</small><strong class="green">80,0 kg</strong><small>Noch 10 kg bis zum Ziel</small></div>
+</div>
+<div class="card"><div class="row"><b>Dein heutiger Plan</b><span class="pill" id="todayName">Montag</span></div><div id="todayMeals"></div><button class="primary" onclick="showView('today')">Was koche ich heute? →</button></div>
+<div class="card">
+<b>Außerplanmäßig gegessen? 🍕</b>
+<p class="note">Döner, Restaurantbesuch, Snack oder spontanes Essen? Trag es hier ein. Es wird zu deiner Tagesbilanz addiert, verändert aber weder Wochenplan noch Einkaufsliste.</p>
+<div class="field"><label for="extraDate">Datum</label><input type="date" id="extraDate" onchange="renderExtras()"></div>
+<div class="field"><label for="extraName">Was hast du gegessen?</label><input type="text" id="extraName" maxlength="70" placeholder="z. B. Döner mit allem"></div>
+<div class="grid">
+ <div class="field"><label for="extraKcal">Kalorien (kcal)</label><input type="number" id="extraKcal" min="0" max="10000" step="1" placeholder="z. B. 750"></div>
+ <div class="field"><label for="extraProtein">Eiweiß (g)</label><input type="number" id="extraProtein" min="0" max="500" step="1" placeholder="z. B. 35"></div>
+</div>
+<button class="primary" onclick="addExtra()">Extra speichern</button>
+<div id="extraEntries" style="margin-top:12px"></div>
+<p class="note">Bei Restaurantessen reichen realistische Schätzwerte. Du musst nicht auf das Gramm genau sein.</p>
+</div>
+<div class="card"><b>Dein Fokus</b><p class="note">2.000 kcal sind ein ambitionierter Testwert, gerade bei körperlicher Arbeit. Beobachte Energie, Hunger und Leistungsfähigkeit. Bei Schwindel oder anhaltender Erschöpfung bitte nicht durchziehen, sondern Kalorien erhöhen und gegebenenfalls ärztlich abklären.</p></div>
+</section>
+<section id="today" class="view"><h2>Was koche ich heute? 🍽️</h2><p class="lead">Dein heutiger Essensplan – Rezept antippen und direkt loslegen.</p><div class="card"><div class="row"><b id="todayViewName">Heute</b><span class="pill">Tagesauswahl</span></div><div id="todayRecipeCards"></div></div></section><section id="week" class="view"><h2>Wochenplan</h2><p class="lead">7 abwechslungsreiche Tage für eine Person. Jede Mahlzeit hat Zutatenmengen und eine Kochanleitung.</p><div class="dayrow" id="dayButtons"></div><div class="card"><div class="row"><b id="dayTitle">Montag</b><span class="pill">Tagesübersicht</span></div><div id="dayMeals"></div><div class="grid" id="dayPlanTotals" style="margin-top:14px"></div><p class="note">Die Tageswerte sind Planungsziele. Exakte Werte hängen von Marke, Roh-/Kochgewicht und Portionsgröße ab. In der App kannst du deine tatsächlich gegessenen Mahlzeiten im Dashboard abhaken.</p></div></section>
+<section id="recipes" class="view"><h2>Rezeptbuch</h2><p class="lead">Abwechslungsreiche Gerichte mit genauen Mengen für eine Portion.</p><div class="card" id="recipeList"></div></section>
+<section id="macros" class="view"><h2>Makros & Tagesziel</h2><p class="lead">Deine Startwerte – anpassbar, wenn wir echte Gewichtsdaten haben.</p><div class="grid">
+<div class="stat"><small>Kalorien</small><strong>2.000 kcal</strong></div><div class="stat"><small>Protein</small><strong>170 g</strong></div><div class="stat"><small>Kohlenhydrate</small><strong>190 g</strong></div><div class="stat"><small>Fett</small><strong>62 g</strong></div></div>
+<div class="card"><b>Makroverteilung (ca.)</b><p class="note">Protein 34 % · Kohlenhydrate 38 % · Fett 28 %</p><div class="bar"><span style="width:34%;display:inline-block;background:#9fdfa9"></span><span style="width:38%;display:inline-block;background:#6ca8d8"></span><span style="width:28%;display:inline-block;background:#e8b16e"></span></div><p class="note">Die Makros ergeben rechnerisch ungefähr 2.000 kcal (kleine Rundungsabweichungen möglich). Protein ist bewusst hoch angesetzt, um den Muskelerhalt beim Abnehmen zu unterstützen.</p></div>
+<div class="card"><b>Hinweis zum Kalorienbedarf</b><p class="note">Dein Grundumsatz ist nicht dein Gesamtverbrauch. Dein tatsächlicher Erhaltungsbedarf hängt unter anderem von Bewegung und Arbeitsbelastung ab. Nutze den 7-Tage-Gewichtsdurchschnitt über mehrere Wochen statt einzelner Tageswerte.</p></div></section>
+<section id="shopping" class="view"><h2>Einkaufsliste</h2><p class="lead">Abhaken, was schon im Wagen liegt.</p><div class="row"><span class="muted" id="shopCount">0 / 0 erledigt</span><button class="secondary" onclick="resetShopping()">Zurücksetzen</button></div><div class="card" id="shoppingList"></div><p class="note">Die Mengen werden automatisch aus allen 21 Mahlzeiten der Woche für eine Person zusammengerechnet. Vorratszutaten wie Salz, Pfeffer und Gewürze sind nicht vollständig enthalten. Packungsgrößen können zu Resten führen.</p></section>
+<section id="prices" class="view"><h2>Supermarkt-Preischeck 🛒</h2><p class="lead">Bis 10 km · Aldi, Lidl, REWE, Kaufland, Penny und Edeka.</p><div class="card"><b>Gesamten Wocheneinkauf vergleichen</b><p class="note">Trage für denselben Einkaufszettel den Gesamtpreis ein. Die App sortiert deine Einträge vom günstigsten zum teuersten Markt und speichert sie auf diesem Gerät. Live-Regalpreise werden nicht automatisch abgerufen.</p><div class="grid"><div class="stat"><small>Budget</small><strong>30–40 €</strong></div><div class="stat"><small>Suchradius</small><strong>10 km</strong></div></div><div class="field"><label for="priceStore">Supermarkt</label><select id="priceStore"><option>Aldi</option><option>Lidl</option><option>REWE</option><option>Kaufland</option><option>Penny</option><option>Edeka</option></select></div><div class="field"><label for="priceTotal">Gesamtpreis (€)</label><input type="number" id="priceTotal" min="0" step="0.01" placeholder="z. B. 34,90"></div><div class="field"><label for="priceNote">Notiz (optional)</label><input type="text" id="priceNote" placeholder="Angebote, fehlende Produkte ..."></div><button class="primary" onclick="saveStorePrice()">Preis speichern</button><div id="priceResults"></div></div><div class="card"><b>Aktuelle Wochenangebote</b><p class="note">Hier findest du die Angebotsseiten der Märkte.</p><div id="offerLinks"></div></div></section><section id="weight" class="view"><h2>Gewichtsverlauf</h2><p class="lead">Wiege dich möglichst morgens unter ähnlichen Bedingungen.</p><div class="card"><div class="grid"><div class="stat"><small>Letzter Eintrag</small><strong id="latestWeight">90,0 kg</strong></div><div class="stat"><small>Bis zum Ziel</small><strong id="toGoal">10,0 kg</strong></div></div><canvas id="weightChart" width="680" height="220"></canvas><div class="field"><label for="weightDate">Datum</label><input type="date" id="weightDate"></div><div class="field"><label for="weightValue">Gewicht in kg</label><input type="number" id="weightValue" min="30" max="300" step="0.1" placeholder="z. B. 89,6"></div><button class="primary" onclick="addWeight()">Gewicht speichern</button></div><div class="card"><b>Deine Einträge</b><div id="weightHistory"></div></div><p class="note">Einzelne Messungen schwanken durch Wasser, Salz, Verdauung und Training. Entscheidend ist der Trend über mehrere Wochen.</p></section>
+</main>
+<nav class="tabs">
+<button class="active" data-view="dashboard" onclick="showView('dashboard')"><b>⌂</b>Home</button>
+<button data-view="today" onclick="showView('today')"><b>🍽</b>Heute</button><button data-view="week" onclick="showView('week')"><b>▦</b>Plan</button>
+<button data-view="recipes" onclick="showView('recipes')"><b>♨</b>Rezepte</button>
+<button data-view="shopping" onclick="showView('shopping')"><b>☷</b>Einkauf</button>
+<button data-view="prices" onclick="showView('prices')"><b>€</b>Preischeck</button><button data-view="weight" onclick="showView('weight')"><b>↗</b>Gewicht</button>
+</nav>
+<div class="modal" id="recipeModal" onclick="if(event.target===this)closeRecipe()"><div class="sheet"><button class="close" onclick="closeRecipe()">×</button><div id="recipeDetail"></div></div></div>
+<script>
+const recipes={
+ porridge:{name:"Protein-Porridge mit Banane",emoji:"🥣",kcal:480,p:43,time:"8 Min.",ingredients:["60 g Haferflocken","250 g Magerquark","1 Banane","Wasser, Zimt"],steps:["Haferflocken mit Wasser und Zimt cremig kochen.","Kurz abkühlen lassen und den Magerquark unterrühren.","Banane in Scheiben schneiden und daraufgeben."],items:[["Haferflocken",60,"g","Getreide"],["Magerquark",250,"g","Milchprodukte"],["Banane",1,"Stück","Obst"]]},
+ skyrBowl:{name:"Skyr-Bowl mit Apfel & Hafer",emoji:"🍎",kcal:450,p:39,time:"5 Min.",ingredients:["250 g Skyr natur","40 g Haferflocken","1 Apfel","10 g Erdnussmus"],steps:["Apfel waschen und würfeln.","Skyr in eine Schüssel geben und Haferflocken einrühren.","Apfel und Erdnussmus darauf verteilen."],items:[["Skyr natur",250,"g","Milchprodukte"],["Haferflocken",40,"g","Getreide"],["Apfel",1,"Stück","Obst"],["Erdnussmus",10,"g","Vorrat"]]},
+ chickenRice:{name:"Hähnchen-Reis-Gemüse-Pfanne",emoji:"🍗",kcal:620,p:49,time:"25 Min.",ingredients:["180 g Hähnchenbrust (roh)","75 g Reis (trocken)","200 g TK-Gemüse","5 g Öl","Paprika, Curry, Salz, Pfeffer"],steps:["Reis nach Packungsanleitung kochen.","Hähnchen würfeln und in Öl vollständig durchgaren.","TK-Gemüse zugeben, würzen und garen. Mit Reis servieren."],items:[["Hähnchenbrust",180,"g","Fleisch"],["Reis",75,"g","Getreide"],["TK-Gemüse",200,"g","Gemüse"],["Öl",5,"g","Vorrat"]]},
+ potatoQuark:{name:"Ofenkartoffeln mit Kräuterquark",emoji:"🥔",kcal:540,p:43,time:"30 Min.",ingredients:["350 g Kartoffeln","250 g Magerquark","1 Ei","Kräuter, Salz, Pfeffer"],steps:["Backofen auf 200 °C vorheizen. Kartoffeln in Spalten schneiden und etwa 25 Minuten backen.","Quark mit Kräutern, Salz, Pfeffer und etwas Wasser cremig rühren.","Ei kochen oder braten und mit Kartoffeln und Quark servieren."],items:[["Kartoffeln",350,"g","Gemüse"],["Magerquark",250,"g","Milchprodukte"],["Eier",1,"Stück","Eier"]]},
+ tunaPasta:{name:"Thunfisch-Tomaten-Pasta",emoji:"🍝",kcal:590,p:43,time:"20 Min.",ingredients:["80 g Vollkornnudeln (trocken)","1 Dose Thunfisch im eigenen Saft (ca. 130 g Abtropfgewicht)","200 g passierte Tomaten","100 g Zwiebel und Gemüse","Italienische Kräuter"],steps:["Nudeln nach Packungsanleitung kochen.","Zwiebel und Gemüse klein schneiden und in einer Pfanne anbraten.","Passierte Tomaten und abgetropften Thunfisch zugeben, würzen und 5 Minuten köcheln lassen. Mit Nudeln mischen."],items:[["Vollkornnudeln",80,"g","Getreide"],["Thunfisch (Dose)",1,"Dose","Konserven"],["Passierte Tomaten",200,"g","Konserven"],["Zwiebel",0.5,"Stück","Gemüse"],["Gemüse-Mix",100,"g","Gemüse"]]},
+ omelette:{name:"Gemüseomelett mit Kartoffeln",emoji:"🍳",kcal:560,p:37,time:"25 Min.",ingredients:["3 Eier","250 g Kartoffeln","150 g Gemüse","100 g Magerquark als Dip"],steps:["Kartoffeln würfeln und in Salzwasser garen.","Gemüse in einer beschichteten Pfanne erhitzen.","Eier verquirlen, darübergeben und stocken lassen. Mit Kartoffeln und Quark servieren."],items:[["Eier",3,"Stück","Eier"],["Kartoffeln",250,"g","Gemüse"],["Gemüse-Mix",150,"g","Gemüse"],["Magerquark",100,"g","Milchprodukte"]]},
+ chili:{name:"Bohnen-Chili mit Rinderhack",emoji:"🌶️",kcal:650,p:48,time:"30 Min.",ingredients:["150 g mageres Rinderhack","120 g Kidneybohnen (Abtropfgewicht)","200 g passierte Tomaten","50 g Mais","50 g Zwiebel","50 g Reis (trocken)","Chili, Paprika, Salz"],steps:["Reis kochen.","Hackfleisch krümelig anbraten und Zwiebel zugeben.","Bohnen, Mais und passierte Tomaten einrühren, würzen und 12–15 Minuten köcheln lassen. Mit Reis servieren."],items:[["Mageres Rinderhack",150,"g","Fleisch"],["Kidneybohnen",1,"Dose","Konserven"],["Passierte Tomaten",200,"g","Konserven"],["Mais",0.5,"Dose","Konserven"],["Zwiebel",0.5,"Stück","Gemüse"],["Reis",50,"g","Getreide"]]},
+ chickenWrap:{name:"Knuspriger Hähnchen-Wrap",emoji:"🌯",kcal:610,p:47,time:"20 Min.",ingredients:["150 g Hähnchenbrust","1 großer Vollkorn-Wrap","100 g Naturjoghurt","Salat und Tomate (150 g)"],steps:["Hähnchen würzen, in Streifen schneiden und vollständig durchbraten.","Joghurt mit Salz, Pfeffer und Kräutern verrühren.","Wrap kurz erwärmen, mit Salat, Tomate, Hähnchen und Joghurtsauce füllen."],items:[["Hähnchenbrust",150,"g","Fleisch"],["Vollkorn-Wraps",1,"Stück","Getreide"],["Naturjoghurt",100,"g","Milchprodukte"],["Salat-Tomaten-Mix",150,"g","Gemüse"]]},
+ curry:{name:"Rotes Linsen-Curry mit Reis",emoji:"🍛",kcal:610,p:31,time:"25 Min.",ingredients:["80 g rote Linsen (trocken)","60 g Reis (trocken)","150 g passierte Tomaten","150 g TK-Gemüse","50 ml leichte Kokosmilch","Curry, Salz"],steps:["Reis kochen.","Linsen abspülen und mit Tomaten, Gemüse und 200 ml Wasser 12–15 Minuten köcheln.","Kokosmilch und Curry einrühren, abschmecken und mit Reis servieren."],items:[["Rote Linsen",80,"g","Hülsenfrüchte"],["Reis",60,"g","Getreide"],["Passierte Tomaten",150,"g","Konserven"],["TK-Gemüse",150,"g","Gemüse"],["Leichte Kokosmilch",50,"ml","Konserven"]]},
+ chickenPotato:{name:"Hähnchen-Kartoffel-Pfanne",emoji:"🍲",kcal:610,p:48,time:"30 Min.",ingredients:["170 g Hähnchenbrust","300 g Kartoffeln","200 g TK-Gemüse","5 g Öl","Paprika, Pfeffer"],steps:["Kartoffeln würfeln und 8–10 Minuten vorkochen.","Hähnchen würfeln und in Öl vollständig durchgaren.","Gemüse und Kartoffeln zugeben, würzen und alles fertig braten."],items:[["Hähnchenbrust",170,"g","Fleisch"],["Kartoffeln",300,"g","Gemüse"],["TK-Gemüse",200,"g","Gemüse"],["Öl",5,"g","Vorrat"]]},
+ lentils:{name:"Tomaten-Linsen-Eintopf mit Ei",emoji:"🥘",kcal:570,p:35,time:"25 Min.",ingredients:["80 g rote Linsen (trocken)","200 g passierte Tomaten","150 g Gemüse","2 Eier","Gewürze"],steps:["Linsen abspülen und mit Tomaten, Gemüse und 250 ml Wasser 12–15 Minuten köcheln.","Mit Salz, Pfeffer und Paprika abschmecken.","Eier kochen und zum Eintopf servieren."],items:[["Rote Linsen",80,"g","Hülsenfrüchte"],["Passierte Tomaten",200,"g","Konserven"],["Gemüse-Mix",150,"g","Gemüse"],["Eier",2,"Stück","Eier"]]},
+ bolognese:{name:"Linsen-Bolognese mit Nudeln",emoji:"🍅",kcal:600,p:32,time:"25 Min.",ingredients:["75 g Vollkornnudeln (trocken)","70 g rote Linsen (trocken)","200 g passierte Tomaten","100 g Gemüse","Italienische Kräuter"],steps:["Nudeln kochen.","Linsen mit Tomaten und 150 ml Wasser 12–15 Minuten köcheln lassen.","Gemüse und Kräuter zugeben, abschmecken und mit Nudeln servieren."],items:[["Vollkornnudeln",75,"g","Getreide"],["Rote Linsen",70,"g","Hülsenfrüchte"],["Passierte Tomaten",200,"g","Konserven"],["Gemüse-Mix",100,"g","Gemüse"]]}
+};
+const week=[
+{name:"Montag",meals:[["Frühstück","Protein-Porridge","porridge"],["Mittag","Hähnchen-Reis-Gemüse-Pfanne","chickenRice"],["Abend","Ofenkartoffeln mit Kräuterquark","potatoQuark"]]},
+{name:"Dienstag",meals:[["Frühstück","Skyr-Bowl","skyrBowl"],["Mittag","Thunfisch-Tomaten-Pasta","tunaPasta"],["Abend","Gemüseomelett mit Kartoffeln","omelette"]]},
+{name:"Mittwoch",meals:[["Frühstück","Protein-Porridge","porridge"],["Mittag","Bohnen-Chili mit Reis","chili"],["Abend","Knuspriger Hähnchen-Wrap","chickenWrap"]]},
+{name:"Donnerstag",meals:[["Frühstück","Skyr-Bowl","skyrBowl"],["Mittag","Rotes Linsen-Curry","curry"],["Abend","Tomaten-Linsen-Eintopf","lentils"]]},
+{name:"Freitag",meals:[["Frühstück","Protein-Porridge","porridge"],["Mittag","Linsen-Bolognese","bolognese"],["Abend","Ofenkartoffeln mit Kräuterquark","potatoQuark"]]},
+{name:"Samstag",meals:[["Frühstück","Skyr-Bowl","skyrBowl"],["Mittag","Hähnchen-Kartoffel-Pfanne","chickenPotato"],["Abend","Gemüseomelett mit Kartoffeln","omelette"]]},
+{name:"Sonntag",meals:[["Frühstück","Protein-Porridge","porridge"],["Mittag","Thunfisch-Tomaten-Pasta","tunaPasta"],["Abend","Bohnen-Chili mit Reis","chili"]]}
+];
+let mealChoices=JSON.parse(localStorage.getItem("mealChoices")||"{}");
+function mealKey(dayIndex,mealIndex){return dayIndex+"-"+mealIndex}
+function isMealPlanned(dayIndex,mealIndex){return mealChoices[mealKey(dayIndex,mealIndex)]!==false}
+function setMealPlanned(dayIndex,mealIndex,value){
+ mealChoices[mealKey(dayIndex,mealIndex)]=value;
+ localStorage.setItem("mealChoices",JSON.stringify(mealChoices));
+ shopping=buildShoppingList();checked={};localStorage.setItem("checked_v2","{}");
+ renderDay();renderToday();renderDashboard();renderShopping();
+}
+let shopping=buildShoppingList();
+function buildShoppingList(){
+ const totals={};
+ week.forEach((day,di)=>day.meals.forEach((meal,mi)=>{if(!isMealPlanned(di,mi))return;const r=recipes[meal[2]];(r.items||[]).forEach(([name,qty,unit,category])=>{const key=name+"|"+unit;if(!totals[key])totals[key]={name,qty:0,unit,category};totals[key].qty+=qty})}));
+ return Object.values(totals).sort((a,b)=>a.category.localeCompare(b.category,"de")||a.name.localeCompare(b.name,"de")).map(x=>[x.category,x.name,formatQty(x.qty,x.unit)]);
+}
+function formatQty(q,u){let v=Math.round(q*100)/100;return (Number.isInteger(v)?v:String(v).replace(".",","))+" "+u}
+let selectedDay=0, checked=JSON.parse(localStorage.getItem("checked_v2")||"{}"), weights=JSON.parse(localStorage.getItem("weights")||'[{"date":"Start","weight":90}]'), eaten=JSON.parse(localStorage.getItem("eaten")||"{}");
+let extras=JSON.parse(localStorage.getItem("extras")||"[]");
+function localDateString(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`;}
+const $=id=>document.getElementById(id);
+function showView(v){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===v));document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("active",x.dataset.view===v));if(v==="weight")renderWeights();window.scrollTo(0,0)}
+function mealHTML(m,mi){let r=recipes[m[2]],enabled=isMealPlanned(selectedDay,mi);return `<div class="meal"><div class="foodicon">${r.emoji}</div><div><h3>${m[0]} · ${m[1]}</h3><p>${r.time} · ${r.kcal} kcal · ${r.p} g Protein</p><label class="meal-toggle"><input type="checkbox" ${enabled?'checked':''} onchange="setMealPlanned(${selectedDay},${mi},this.checked)"> Einplanen</label></div><button class="secondary" onclick="openRecipe('${m[2]}')">Rezept</button></div>`}
+function renderDays(){ $("dayButtons").innerHTML=week.map((d,i)=>`<button class="${i===selectedDay?'selected':''}" onclick="selectDay(${i})">${d.name.slice(0,2)}<br>${i+1}</button>`).join("");renderDay()}
+function selectDay(i){selectedDay=i;renderDays()}
+function renderDay(){let d=week[selectedDay];$("dayTitle").textContent=d.name;$("dayMeals").innerHTML=d.meals.map((m,i)=>mealHTML(m,i)).join("");let total=0,prot=0;d.meals.forEach((m,i)=>{if(isMealPlanned(selectedDay,i)){total+=recipes[m[2]].kcal;prot+=recipes[m[2]].p}});$("dayPlanTotals").innerHTML=`<div class="stat"><small>Geplante Kalorien</small><strong>≈ ${total} kcal</strong></div><div class="stat"><small>Geplantes Protein</small><strong>≈ ${prot} g</strong></div>`;}
+function renderDashboard(){
+ let idx=(new Date().getDay()+6)%7,d=week[idx],today=localDateString();
+ $("todayName").textContent=d.name;
+ $("todayMeals").innerHTML=d.meals.map((m,mi)=>({m,mi})).filter(x=>isMealPlanned(idx,x.mi)).map(({m,mi})=>{let r=recipes[m[2]],key=today+m[2];return `<div class="meal"><div class="foodicon">${r.emoji}</div><div><h3>${m[0]} · ${m[1]}</h3><p>${r.kcal} kcal · ${r.p} g Protein</p></div><input aria-label="Mahlzeit gegessen" type="checkbox" ${eaten[key]?'checked':''} onchange="toggleEaten('${key}',this.checked)"></div>`}).join("");
+ let total=0,prot=0;
+ d.meals.forEach((m,mi)=>{if(!isMealPlanned(idx,mi))return;let r=recipes[m[2]],key=today+m[2];if(eaten[key]){total+=r.kcal;prot+=r.p}});
+ extras.filter(x=>x.date===today).forEach(x=>{total+=x.kcal;prot+=x.protein});
+ $("dashKcal").innerHTML=`${total} <small style="display:inline">/ 2.000</small>`;
+ $("dashProtein").innerHTML=`${prot} <small style="display:inline">/ 170 g</small>`;
+ $("kcalBar").style.width=Math.min(total/2000*100,100)+"%";
+ $("proteinBar").style.width=Math.min(prot/170*100,100)+"%";
+}
+function toggleEaten(k,v){eaten[k]=v;localStorage.setItem("eaten",JSON.stringify(eaten));renderDashboard()}
+function addExtra(){
+ const date=$("extraDate").value,name=$("extraName").value.trim(),kcal=Number($("extraKcal").value),protein=Number($("extraProtein").value);
+ if(!date||!name||$("extraKcal").value===""||$("extraProtein").value===""||!Number.isFinite(kcal)||!Number.isFinite(protein)||kcal<0||protein<0||kcal>10000||protein>500){alert("Bitte Datum, Beschreibung sowie gültige Kalorien- und Eiweißwerte eintragen.");return}
+ extras.push({id:Date.now().toString()+"-"+Math.random().toString(36).slice(2,7),date,name,kcal:Math.round(kcal),protein:Math.round(protein)});
+ localStorage.setItem("extras",JSON.stringify(extras));
+ $("extraName").value="";$("extraKcal").value="";$("extraProtein").value="";
+ renderExtras();renderDashboard();
+}
+function deleteExtra(id){extras=extras.filter(x=>x.id!==id);localStorage.setItem("extras",JSON.stringify(extras));renderExtras();renderDashboard()}
+function renderExtras(){
+ const date=$("extraDate").value||localDateString(),items=extras.filter(x=>x.date===date).sort((a,b)=>b.id.localeCompare(a.id));
+ const total=items.reduce((s,x)=>s+x.kcal,0),protein=items.reduce((s,x)=>s+x.protein,0);
+ $("extraEntries").innerHTML=items.length?`<div class="row"><b>Deine Extras am ${new Date(date+"T12:00:00").toLocaleDateString("de-DE")}</b><span class="pill">${total} kcal · ${protein} g Eiweiß</span></div>${items.map(x=>`<div class="priceitem"><div><b>${escapeText(x.name)}</b><div class="note">${x.kcal} kcal · ${x.protein} g Eiweiß</div></div><button class="secondary" aria-label="Eintrag löschen" onclick="deleteExtra('${x.id}')">✕</button></div>`).join("")}`:"<p class='note'>Für dieses Datum sind noch keine Extras eingetragen.</p>";
+}
+function openRecipe(id){let r=recipes[id];$("recipeDetail").innerHTML=`<div class="foodicon">${r.emoji}</div><h2>${r.name}</h2><div class="tagrow"><span class="tag">≈ ${r.kcal} kcal</span><span class="tag">≈ ${r.p} g Protein</span><span class="tag">${r.time}</span></div><h3>Zutaten</h3><ul>${r.ingredients.map(x=>`<li>${x}</li>`).join("")}</ul><h3>Zubereitung</h3><ol>${r.steps.map(x=>`<li>${x}</li>`).join("")}</ol><p class="note">Nährwerte sind Schätzwerte und können je nach Produkt und Zubereitung abweichen.</p>`;$("recipeModal").classList.add("open")}
+function closeRecipe(){$("recipeModal").classList.remove("open")}
+function renderRecipes(){$("recipeList").innerHTML=Object.entries(recipes).map(([id,r])=>`<div class="recipe"><div class="row"><div><h3>${r.emoji} ${r.name}</h3><p>${r.time} · ${r.kcal} kcal · ${r.p} g Protein</p></div><button class="secondary" onclick="openRecipe('${id}')">Ansehen</button></div></div>`).join("")}
+function renderShopping(){let done=shopping.filter((x,i)=>checked[i]).length;$("shopCount").textContent=`${done} / ${shopping.length} erledigt`;$("shoppingList").innerHTML=shopping.map((x,i)=>`<label class="check ${checked[i]?'done':''}"><input type="checkbox" ${checked[i]?'checked':''} onchange="checkShop(${i},this.checked)"><span><b>${x[1]}</b><br><small class="muted">${x[2]} · ${x[0]}</small></span></label>`).join("")}
+function checkShop(i,v){checked[i]=v;localStorage.setItem("checked_v2",JSON.stringify(checked));renderShopping()}
+function resetShopping(){checked={};localStorage.setItem("checked_v2","{}");renderShopping()}
+function addWeight(){let v=parseFloat($("weightValue").value.replace(",",".")),d=$("weightDate").value;if(!v||v<30||v>300||!d){alert("Bitte Datum und ein gültiges Gewicht eingeben.");return}weights.push({date:d,weight:v});weights.sort((a,b)=>a.date.localeCompare(b.date));localStorage.setItem("weights",JSON.stringify(weights));$("weightValue").value="";renderWeights()}
+function renderWeights(){let last=weights[weights.length-1];$("latestWeight").textContent=last.weight.toFixed(1).replace(".",",")+" kg";$("toGoal").textContent=Math.max(0,last.weight-80).toFixed(1).replace(".",",")+" kg";$("weightHistory").innerHTML=weights.slice().reverse().map((w,i)=>`<div class="weightitem"><span>${w.date==="Start"?"Startgewicht":new Date(w.date+"T12:00:00").toLocaleDateString("de-DE")}</span><b>${w.weight.toFixed(1).replace(".",",")} kg</b></div>`).join("");drawChart()}
+function drawChart(){let c=$("weightChart"),ctx=c.getContext("2d"),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#314236";ctx.lineWidth=1;for(let y=35;y<h-25;y+=35){ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(w-10,y);ctx.stroke()}let vals=weights.map(x=>x.weight),min=Math.min(75,...vals)-1,max=Math.max(92,...vals)+1;ctx.strokeStyle="#a6e3b2";ctx.lineWidth=3;ctx.beginPath();weights.forEach((p,i)=>{let x=40+(w-65)*(weights.length===1?0:i/(weights.length-1)),y=15+(h-45)*(max-p.weight)/(max-min);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);ctx.fillStyle="#a6e3b2";ctx.fillRect(x-3,y-3,6,6)});ctx.stroke();ctx.fillStyle="#a1b1a5";ctx.font="13px sans-serif";ctx.fillText("Ziel: 80 kg",40,h-5)}
+
+const offerPages=[["Aldi","https://www.aldi-sued.de/de/angebote.html"],["Lidl","https://www.lidl.de/c/angebote/a100056"],["REWE","https://www.rewe.de/angebote/"],["Kaufland","https://www.kaufland.de/angebote.html"],["Penny","https://www.penny.de/angebote"],["Edeka","https://www.edeka.de/angebote.jsp"]];
+let storePrices=JSON.parse(localStorage.getItem("storePrices")||"{}");
+function renderToday(){const idx=(new Date().getDay()+6)%7,d=week[idx];$("todayViewName").textContent=d.name;const meals=d.meals.filter((m,mi)=>isMealPlanned(idx,mi));$("todayRecipeCards").innerHTML=meals.map(m=>{const r=recipes[m[2]];return `<div class="meal"><div class="foodicon">${r.emoji}</div><div><h3>${m[0]} · ${r.name}</h3><p>${r.time} · ca. ${r.kcal} kcal · ${r.p} g Protein</p></div><button class="secondary" onclick="openRecipe('${m[2]}')">Kochen</button></div>`}).join("")||"<p class='note'>Für heute hast du noch keine Mahlzeiten eingeplant. Du kannst sie im Wochenplan aktivieren.</p>"}
+function saveStorePrice(){const store=$("priceStore").value,price=parseFloat($("priceTotal").value.replace(",","."));if(!Number.isFinite(price)||price<=0){alert("Bitte einen gültigen Gesamtpreis eingeben.");return}storePrices[store]={price,note:$("priceNote").value.trim(),date:new Date().toISOString().slice(0,10)};localStorage.setItem("storePrices",JSON.stringify(storePrices));$("priceTotal").value="";$("priceNote").value="";renderPriceResults()}
+function renderPriceResults(){const names=["Aldi","Lidl","REWE","Kaufland","Penny","Edeka"],rows=names.filter(n=>storePrices[n]).map(n=>({name:n,...storePrices[n]})).sort((a,b)=>a.price-b.price);$("priceResults").innerHTML=rows.length?`<h3 style="font-size:15px">Deine Preisübersicht</h3>${rows.map((x,i)=>`<div class="priceitem"><div><b>${i===0?"🏆 ":""}${x.name}</b><div class="note">${x.date}${x.note?" · "+escapeText(x.note):""}</div></div><b>${x.price.toFixed(2).replace(".",",")} €</b></div>`).join("")}<p class="note">${rows.length>1?`Differenz günstigster zu teuerstem Markt: ${(rows[rows.length-1].price-rows[0].price).toFixed(2).replace(".",",")} €.`:"Trage weitere Märkte ein, um zu vergleichen."}</p><button class="secondary" onclick="clearStorePrices()">Preise löschen</button>`:"<p class='note'>Noch keine Preise gespeichert. Vergleiche denselben Einkaufszettel in den Märkten.</p>"}
+function escapeText(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function clearStorePrices(){if(confirm("Alle gespeicherten Marktpreise löschen?")){storePrices={};localStorage.removeItem("storePrices");renderPriceResults()}}
+function renderOfferLinks(){$("offerLinks").innerHTML=offerPages.map(x=>`<div class="priceitem"><b>${x[0]}</b><a href="${x[1]}" target="_blank" rel="noopener" style="color:var(--green)">Angebote ansehen ↗</a></div>`).join("")}
+
+$("weightDate").value=localDateString();$("extraDate").value=localDateString();renderExtras();renderToday();renderPriceResults();renderOfferLinks();renderDays();renderRecipes();renderShopping();renderDashboard();renderWeights();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
